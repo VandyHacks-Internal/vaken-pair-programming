@@ -39,7 +39,7 @@ export const verifyCallback = async (
 	done: VerifyCallback | GVerifyCallback
 ): Promise<void> => {
 	const { Logins, Hackers, Sponsors } = models;
-
+	console.log(profile);
 	let { userType } = (await Logins.findOne({
 		provider: profile.provider,
 		token: profile.id,
