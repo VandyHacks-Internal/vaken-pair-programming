@@ -64,11 +64,12 @@ export const schema = makeExecutableSchema({
 	passport.use('github', strategies.github(models));
 	passport.use('google', strategies.google(models));
 	passport.use('microsoft', strategies.microsoft(models));
+	passport.use('slack', strategies.slack(models));
 
 	registerAuthRoutes(app);
 
 	app.use((req, res, next) =>
-		passport.authenticate(['session', 'github', 'google', 'microsoft'], (err, user) => {
+		passport.authenticate(['session', 'github', 'google', 'microsoft', 'slack'], (err, user) => {
 			if (err) return void next();
 			return void req.login(user, next);
 		})(req, res, next)
