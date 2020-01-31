@@ -3,8 +3,9 @@ import passport from 'passport';
 import { strategy as github } from './github';
 import { strategy as google } from './google';
 import { strategy as microsoft } from './microsoft';
+import { strategy as slack } from './slack';
 
-export const strategies = { github, google, microsoft };
+export const strategies = { github, google, microsoft, slack };
 
 export const registerAuthRoutes = (app: Express): void => {
 	passport.serializeUser((user, done) => void done(null, user));
@@ -38,6 +39,16 @@ export const registerAuthRoutes = (app: Express): void => {
 			failureRedirect: '/login',
 		}),
 		(req, res) => void res.redirect('/')
+	);
+
+	// path to start the OAuth flow
+	app.get('/api/auth/slack', passport.authorize('slack'));
+
+	// OAuth callback url
+	app.get(
+		'/api/auth/slack/callback',
+		passport.authenticate('slack', { failureRedirect: '/login' }),
+		(req, res) => res.redirect('/')
 	);
 
 	app.get('/api/logout', (req, res) => {

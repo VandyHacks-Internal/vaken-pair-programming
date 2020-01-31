@@ -14,6 +14,7 @@ import { strategies, registerAuthRoutes } from './auth';
 import { UnsubscribeHandler } from './mail/handlers';
 import { UserDbInterface } from './generated/graphql';
 import { pullCalendar } from './events';
+import { strategy as slack } from './auth/slack';
 
 const { SESSION_SECRET, PORT, CALENDARID, NODE_ENV } = process.env;
 if (!SESSION_SECRET) throw new Error(`SESSION_SECRET not set`);
@@ -64,11 +65,11 @@ export const schema = makeExecutableSchema({
 	passport.use('github', strategies.github(models));
 	passport.use('google', strategies.google(models));
 	passport.use('microsoft', strategies.microsoft(models));
-
+	passport.use('slack', strategies.slack(models));
 	registerAuthRoutes(app);
 
 	app.use((req, res, next) =>
-		passport.authenticate(['session', 'github', 'google', 'microsoft'], (err, user) => {
+		passport.authenticate(['session', 'github', 'google', 'microsoft', 'slack'], (err, user) => {
 			if (err) return void next();
 			return void req.login(user, next);
 		})(req, res, next)
