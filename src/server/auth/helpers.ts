@@ -46,6 +46,10 @@ export const verifyCallback = async (
 	})) || { userType: null };
 
 	try {
+		if (profile.provider === 'Slack') {
+			profile.emails = [{ value: profile.user.email }];
+		}
+
 		const { emails: [{ value: email }] = [{ value: null }] } = profile;
 		if (email == null) throw new Error(`Email not provided by provider ${JSON.stringify(profile)}`);
 
