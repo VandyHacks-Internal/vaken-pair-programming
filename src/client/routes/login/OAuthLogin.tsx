@@ -20,6 +20,12 @@ const OAuthLogin = (): JSX.Element => {
 				</LeftImgButton>
 			</a>
 
+			<a href="/api/auth/slack" style={{ textDecoration: 'none' }}>
+				<LeftImgButton color={STRINGS.DARK_TEXT_COLOR} img={googleLogo} imgAlt="Google logo">
+					Sign in with Slack
+				</LeftImgButton>
+			</a>
+
 			<a href="/api/auth/microsoft" style={{ textDecoration: 'none' }}>
 				<LeftImgButton color={STRINGS.DARK_TEXT_COLOR} img={msftLogo} imgAlt="Microsoft logo">
 					Sign in with Microsoft
